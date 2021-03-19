@@ -28,7 +28,7 @@ a:hover {
   flex-grow: 1;
 }
 
-.overlay {
+#overlay {
   position: absolute;
   width: 100%;
   height: 100%;

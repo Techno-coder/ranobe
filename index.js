@@ -16,9 +16,15 @@ async function selectFile(index) {
 	const file = files[index];
 	currentIndex = index;
 
+	// Reset overlay.
+	const overlay = overlayElement();
+	const node = document.querySelector("#overlay");
+	node.replaceWith(overlay);
+
 	// Load image data.
 	const reader = new FileReader();
-	reader.onload = (event) => loadFile(file, event.target.result);
+	const load = (data) => loadFile(overlay, file, data);
+	reader.onload = (event) => load(event.target.result);
 	reader.readAsDataURL(file);
 }
 
@@ -30,21 +36,25 @@ async function nextFile() {
 	await selectFile(currentIndex + 1);
 }
 
-async function loadFile(file, data) {
+function overlayElement() {
+	const node = document.createElement("div");
+	node.id = "overlay";
+	return node;
+}
+
+async function loadFile(overlay, file, data) {
 	// Show file name and image.
 	document.querySelector("#name").innerHTML = file.name;
 	const image = document.querySelector("#image");
 	image.src = data;
 
-	// Reset image.
-	const target = document.querySelector("#scan");
-	const boxes = document.querySelector("#boxes");
-	boxes.innerHTML = "";
-
-	// Populate image.
+	// Load overlay data.
 	await image.decode();
 	const scan = await scanFile(file, data);
 	const lines = scan["TextOverlay"]["Lines"];
+	const target = document.querySelector("#scan");
+
+	// Populate overlay.
 	for (let i = 0; i < lines.length; i++) {
 		const box = document.createElement("a");
 		box.onclick = () => target.textContent = lines[i]["LineText"];
@@ -54,7 +64,7 @@ async function loadFile(file, data) {
 		box.href = `#${box.id}`;
 		box.classList.add("box");
 		box.tabIndex = 0;
-		boxes.append(box);
+		overlay.append(box);
 	}
 }
 
