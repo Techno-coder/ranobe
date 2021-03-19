@@ -12,6 +12,9 @@
 	<script src="https://unpkg.com/hotkeys-js@3.8.3/dist/hotkeys.min.js"
 	        integrity="sha384-O2FPfUNhwIOzAIKX4WGUIZ3IDnI5aRtDJ+QhZ4cGysRnBYi0rp0QlaGI2Gb9FLuA"
 	        crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/UpUp/1.1.0/upup.min.js"
+	        integrity="sha512-gvjSoow5DPFvXsUlYkus34t20Gjs/4Cyl0HB2OJg5m3D2TgqETOGO9fAFq6fD58H6VgcxgbO3Yxty42zlVr1HA=="
+	        crossorigin="anonymous"></script>
 </head>
 <body>
 <div style="display: flex;">
@@ -50,5 +53,12 @@
 	</div>
 </div>
 <script src="index.js"></script>
+<script>
+	UpUp.start({
+		"content-url": "index.html",
+		"assets": ["index.js", "styles.css"],
+		"service-worker-url": "upup.sw.min.js",
+	});
+</script>
 </body>
 </html>
